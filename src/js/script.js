@@ -64,10 +64,4 @@
     }
   }
   initActions();
-  
-
-  /*initData: function() {
-    const thisApp = this;
-    thisApp.data= dataSousce.books;
-  }*/
 }
