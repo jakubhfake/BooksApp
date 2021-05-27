@@ -47,21 +47,40 @@
   }
   getElements();
 
-  //const favoriteBooks = [];
+  const favoriteBooks = [];
+  console.log('Array favorite books ID', favoriteBooks);
+  
   function initActions() {
     const booksList  = document.querySelector(select.containerOf.menu);
     const selectedBooks = booksList.querySelectorAll(select.containerOf.favorite);
     //console.log('Books list', booksList);
     for(let book of selectedBooks){
       console.log(book);
-      book.addEventListener('dblclick', function(event) {
+      // There must be event dblclick !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      book.addEventListener('click', function(event) {
         event.preventDefault();
-        //event.stopPropagation();
-        //event.currentTarget.classList.toggle('favorite');
-        console.log('dblclick', event);
+        const favoriteBookClass = event.currentTarget.classList.contains('favorite');
+        console.log('Book class', favoriteBookClass);
+        if( favoriteBookClass == false) {
+          event.currentTarget.classList.add('favorite');
+          console.log('click', event);
+          //event.getElementById
+          const favoriteBookId = book.getAttribute('data-id');
+          console.log('Book Id', favoriteBookId);
+          favoriteBooks.push(favoriteBookId);
+        }
+        else if ( favoriteBookClass == true) {
+          event.currentTarget.classList.remove('favorite');
+          console.log('click', event);
+          //event.getElementById
+          const indexOfBookId = favoriteBooks.indexOf('data-id');
+          const removedBookId = favoriteBooks.splice( indexOfBookId, 1);
+          console.log('Removed book',removedBookId);
+        }
         
       });
     }
   }
   initActions();
+  
 }
