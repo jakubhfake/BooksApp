@@ -6,9 +6,13 @@
       menuProduct: '#template-book',
     },
     containerOf: {
-      menu: '.books-list',
-      favorite: '.book__image',
+      list: '.books-list',
+      bookImage: '.book__image',
     },
+  };
+  const classNames = {
+    bookLinkClass: 'book__image',
+    favoriteBook: 'favorite',
   };
 
   // Handlebars templates
@@ -33,7 +37,7 @@
       //console.log('source', dataSource.books);
       //console.log('HTML', generatedHTML);
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
-      book = document.querySelector(select.containerOf.menu);
+      book = document.querySelector(select.containerOf.list);
       //console.log('DOM', generatedDOM);
       //console.log('Book', book) ;
       /*thisBookList.*/book.appendChild(generatedDOM);
@@ -49,23 +53,22 @@
 
   const favoriteBooks = [];
   console.log('Array favorite books ID', favoriteBooks);
-  
+
   function initActions() {
-    const booksList  = document.querySelector(select.containerOf.menu);
-    const selectedBooks = booksList.querySelectorAll(select.containerOf.favorite);
+    const booksList  = document.querySelector(select.containerOf.list);
+    //const singleBooks = booksList.querySelectorAll(select.containerOf.bookImage);
     //console.log('Books list', booksList);
-    for(let book of selectedBooks){
-      console.log(book);
-      // There must be event dblclick !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      book.addEventListener('click', function(event) {
-        event.preventDefault();
-        const favoriteBookClass = event.currentTarget.classList.contains('favorite');
-        console.log('Book class', favoriteBookClass);
+    
+    booksList.addEventListener('dblclick', function(event) {
+      event.preventDefault();
+      if (event.target.offsetParent.classList.contains(classNames.bookLinkClass)){
+        const favoriteBookClass = event.currentTarget.classList.contains(classNames.favoriteBook);
+        console.log('Book image parent', event.target.parentNode);
         if( favoriteBookClass == false) {
           event.currentTarget.classList.add('favorite');
-          console.log('click', event);
+          console.log('dblclick', event);
           //event.getElementById
-          const favoriteBookId = book.getAttribute('data-id');
+          const favoriteBookId = event.getAttribute('data-id');
           console.log('Book Id', favoriteBookId);
           favoriteBooks.push(favoriteBookId);
         }
@@ -77,9 +80,12 @@
           const removedBookId = favoriteBooks.splice( indexOfBookId, 1);
           console.log('Removed book',removedBookId);
         }
-        
-      });
-    }
+        else {
+          console.log('Something goes wrong');
+        }
+      }
+    });
+    
   }
   initActions();
   
