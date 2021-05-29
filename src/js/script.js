@@ -63,12 +63,12 @@
       event.preventDefault();
       if (event.target.offsetParent.classList.contains(classNames.bookLinkClass)){
         const favoriteBookClass = event.currentTarget.classList.contains(classNames.favoriteBook);
-        console.log('Book image parent', event.target.parentNode);
+        console.log('Book image parent', event.target.offsetParent);
         if( favoriteBookClass == false) {
           event.currentTarget.classList.add('favorite');
           console.log('dblclick', event);
           //event.getElementById
-          const favoriteBookId = event.getAttribute('data-id');
+          const favoriteBookId = event.target.offsetParent.getAttribute('data-id');
           console.log('Book Id', favoriteBookId);
           favoriteBooks.push(favoriteBookId);
         }
