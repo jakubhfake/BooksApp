@@ -97,7 +97,12 @@
     console.log('Filters', bookFilters);
     bookFilters.addEventListener('change', function(event) {
       event.preventDefault;
-      console.log('Marked filter is:', event.target.value);
+      if(event.target.tagName === 'INPUT' && event.target.type == 'checkbox' && event.target.name == 'filter'){
+        console.log('Marked filter is:', event.target.value);
+        console.log('Marked filter is:', event.target.checked);
+        //if
+      }
+      
 
     });
   }
