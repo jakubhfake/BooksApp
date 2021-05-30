@@ -94,13 +94,25 @@
     });
     // Books filters
     const bookFilters  = document.querySelector(select.containerOf.filters);
-    console.log('Filters', bookFilters);
+    
     bookFilters.addEventListener('change', function(event) {
       event.preventDefault;
-      if(event.target.tagName === 'INPUT' && event.target.type == 'checkbox' && event.target.name == 'filter'){
-        console.log('Marked filter is:', event.target.value);
+      if(event.target.tagName == 'INPUT' && event.target.type == 'checkbox' && event.target.name == 'filter'){
+        //console.log('target marked filter is:', event.target);
+        //console.log('tagName marked filter is:', event.target.tagName);
+        //console.log('Type of marked filter is:', event.target.type);
+        //console.log('Name of marked filter is:', event.target.name);
         console.log('Marked filter is:', event.target.checked);
-        //if
+        if(event.target.checked == true) {
+          filtersArray.push(event.target.value);
+          console.log('Marked filter is value:', event.target.value);
+        }
+        else if (event.target.checked == false) {
+          const filterId = filtersArray.indexOf(event.target.value);
+          console.log('Filter Id:', filterId);
+          const removedFilter = filtersArray.splice(filterId, 1);
+          console.log('Filter removed:', removedFilter);
+        }
       }
       
 
