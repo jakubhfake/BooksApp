@@ -8,6 +8,7 @@
     containerOf: {
       list: '.books-list',
       bookImage: '.book__image',
+      filters: '.filters'
     },
   };
   const classNames = {
@@ -21,8 +22,8 @@
       document.querySelector(select.templatesOf.menuProduct).innerHTML
     ),
   };
-  // Functions
- 
+
+  // Render books menu
   function renderBooks() {
     //const thisBookList = this;
     for( let book of /*thisBookList.*/dataSource.books){
@@ -32,9 +33,12 @@
         name: book.name,
         image: book.image,
         rating: book.rating,
-        details: book.details,
+        details: {
+          adults: book.details.adults,
+          nonFiction: book.details.adults,
+        }
       });
-      //console.log('source', dataSource.books);
+      console.log('source', dataSource.books);
       //console.log('HTML', generatedHTML);
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
       book = document.querySelector(select.containerOf.list);
@@ -51,42 +55,56 @@
   }
   getElements();
 
+  
   const favoriteBooks = [];
   console.log('Array favorite books ID', favoriteBooks);
+  const filtersArray = [];
+  console.log('Filter array',filtersArray);
 
   function initActions() {
+    //Favorite books
     const booksList  = document.querySelector(select.containerOf.list);
-    //const singleBooks = booksList.querySelectorAll(select.containerOf.bookImage);
-    //console.log('Books list', booksList);
-    
     booksList.addEventListener('dblclick', function(event) {
       event.preventDefault();
-      if (event.target.offsetParent.classList.contains(classNames.bookLinkClass)){
-        const favoriteBookClass = event.currentTarget.classList.contains(classNames.favoriteBook);
-        console.log('Book image parent', event.target.offsetParent);
+      const clickedBook = event.target.offsetParent;
+      const favoriteBookClass = clickedBook.classList.contains(classNames.favoriteBook);
+      if (clickedBook.classList.contains(classNames.bookLinkClass)){
+        console.log('Book image link', clickedBook);
+        console.log('Contains favorite class?', favoriteBookClass);
         if( favoriteBookClass == false) {
-          event.currentTarget.classList.add('favorite');
+          clickedBook.classList.add('favorite');
           console.log('dblclick', event);
           //event.getElementById
           const favoriteBookId = event.target.offsetParent.getAttribute('data-id');
-          console.log('Book Id', favoriteBookId);
+          console.log('Added book Id', favoriteBookId);
           favoriteBooks.push(favoriteBookId);
         }
         else if ( favoriteBookClass == true) {
-          event.currentTarget.classList.remove('favorite');
+          clickedBook.classList.remove('favorite');
           console.log('click', event);
           //event.getElementById
           const indexOfBookId = favoriteBooks.indexOf('data-id');
           const removedBookId = favoriteBooks.splice( indexOfBookId, 1);
-          console.log('Removed book',removedBookId);
+          console.log('Removed book id',removedBookId);
         }
         else {
           console.log('Something goes wrong');
         }
       }
     });
-    
+    // Books filters
+    const bookFilters  = document.querySelector(select.containerOf.filters);
+    console.log('Filters', bookFilters);
+    bookFilters.addEventListener('change', function(event) {
+      event.preventDefault;
+      console.log('Marked filter is:', event.target.value);
+
+    });
   }
   initActions();
+
+  // Filtersm function
+  
+
   
 }
