@@ -14,6 +14,7 @@
   const classNames = {
     bookLinkClass: 'book__image',
     favoriteBook: 'favorite',
+    hiddenClass: 'hidden',
   };
 
   // Handlebars templates
@@ -25,8 +26,7 @@
 
   // Render books menu
   function renderBooks() {
-    //const thisBookList = this;
-    for( let book of /*thisBookList.*/dataSource.books){
+    for( let book of dataSource.books){
       const generatedHTML = templates.bookList({
         id: book.id,
         price: book.price,
@@ -102,21 +102,45 @@
         //console.log('tagName marked filter is:', event.target.tagName);
         //console.log('Type of marked filter is:', event.target.type);
         //console.log('Name of marked filter is:', event.target.name);
-        console.log('Marked filter is:', event.target.checked);
+        //console.log('Marked filter is:', event.target.checked);
         if(event.target.checked == true) {
           filtersArray.push(event.target.value);
-          console.log('Marked filter is value:', event.target.value);
+          //console.log('Marked filter is value:', event.target.value);
         }
         else if (event.target.checked == false) {
           const filterId = filtersArray.indexOf(event.target.value);
-          console.log('Filter Id:', filterId);
+          //console.log('Filter Id:', filterId);
           const removedFilter = filtersArray.splice(filterId, 1);
           console.log('Filter removed:', removedFilter);
         }
       }
-      
-
+      filterBooks();
     });
+    
+    function filterBooks() {
+      
+      for( let book of dataSource.books){
+        console.log(book);
+        let souldBeHidden = false;
+        const bookToFilter = document.querySelector('.book__image[data-id="'+ book.id +'"]');
+        console.log('bookTofilter', bookToFilter);
+        for(let filter of filtersArray) {
+          console.log('xxx:', filter);
+          if(!book.details[filter]) {
+            souldBeHidden = true;
+            console.log('Nie Book filter:',!book.details[filter]);
+            console.log('Book to hidde:', souldBeHidden);
+            break;
+          }
+        }
+        if(souldBeHidden == true) {
+          bookToFilter.classList.add(classNames.hiddenClass);
+        }
+        else if (souldBeHidden == false){
+          bookToFilter.classList.remove(classNames.hiddenClass);
+        }
+      }
+    }
   }
   initActions();
 
